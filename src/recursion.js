@@ -172,13 +172,34 @@ var range = function(x, y) {
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 
 var exponent = function(base, exp) {
+  //   if (exp === 0) {
+  //     return 1;
+  //   } else if (exp > 0) {
+  //     //toFixed(wanted digit) : format numbers in javascript to two decimal digits
+  //     return base * exponent(base, exp - 1).toFixed(4);
+  //   } else {
+  //     return (1 / base) * exponent(base, exp + 1).toFixed(4);
+  //   }
+  // };
   if (exp === 0) {
     return 1;
-  } else if (exp > 0) {
-    //toFixed(wanted digit) : format numbers in javascript to two decimal digits
-    return base * exponent(base, exp - 1).toFixed(4);
+  }
+  // optimize for even numbers
+  if (exp > 0) {
+    if (exp - 2 >= 0) {
+      return base * base * exponent(base, exp - 2);
+    } else {
+      return base * exponent(base, exp - 1);
+    }
   } else {
-    return (1 / base) * exponent(base, exp + 1).toFixed(4);
+    if (exp + 2 <= 0) {
+      return (
+        ((1 / base) * (1 / base)).toFixed(4) *
+        exponent(base, exp + 2).toFixed(4)
+      );
+    } else {
+      return (1 / base) * exponent(base, exp + 1).toFixed(4);
+    }
   }
 };
 //parseFloat( num.toFixed(2) )
@@ -340,43 +361,218 @@ var modulo = function(x, y) {
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
-var multiply = function(x, y) {};
+var multiply = function(x, y) {
+  if (x === 0 || y === 0) {
+    return 0;
+  }
+  //var result = 0;
+  // if (x > 0 && y < 0) {
+  //   result += x;
+  //   return -x + multiply(x, y + 1);
+  // } else if (x < 0 && y < 0) {
+  //   return -x + multiply(x, y + 1);
+  if (y > 0) {
+    return x + multiply(x, y - 1);
+  } else {
+    return -x + multiply(x, y + 1);
+  }
+};
+
+// var multiply = function(x, y) {
+//   if (x === 0 || y === 0) {
+//     return 0;
+//   }
+//   if (y > 0) {
+//     return x + multiply(x, y - 1);
+//   } else {
+//     return -x + multiply(x, y + 1);
+//   }
+// };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
-var divide = function(x, y) {};
+// var divide = function(x, y) {
+
+var divide = function(x, y) {
+  if (y === 0) return NaN;
+  if (x === 0) return 0;
+  if (y === 1) return x;
+  var result = 0;
+
+  if (x < y) {
+    return 0;
+  }
+  if (x < 0 && y < 0 && x > y) {
+    return 0;
+  }
+  result++;
+  return result + divide(x - y, y);
+};
+
+// //
+// var divide = function(x, y) {
+//   if (y === 0) {
+//     return NaN;
+//   } else if (
+//     (x < y && x >= 0 && y >= 0) ||
+//     (x < -y && y < 0 && x >= 0) ||
+//     (-x < y && x < 0 && y >= 0) ||
+//     (-x < -y && x < 0 && y < 0)
+//   ) {
+//     return 0;
+//   }
+//   if ((x >= 0 && y >= 0) || (x <= 0 && y <= 0)) {
+//     return 1 + divide(x - y, y);
+//   }
+//   return divide(x + y, y) - 1;
+// };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
 // integers is the greatest integer that divides both x and y with no remainder.
 // gcd(4,36); // 4
-// http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
+// https://www.cse.wustl.edu/~ychen/131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
-var gcd = function(x, y) {};
+var gcd = function(x, y) {
+  if (x < 0 || y < 0) {
+    return null;
+  }
+  // both x > 0  && y > 0
+  if (x > y) {
+    if (x % y === 0) {
+      return y;
+    } else {
+      return gcd(y, x % y);
+    }
+  } else {
+    if (y % x === 0) {
+      return x;
+    } else {
+      return gcd(x, y % x);
+    }
+  }
+};
 
-// 15. Write a function that compares each character of two strings and returns true if
+// 15. compare String (substring / slice )
+//Write a function that compares each character of two strings and returns true if
 // both are identical.
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
-var compareStr = function(str1, str2) {};
+var compareStr = function(str1, str2) {
+  if (str1.length === 0 && str2.length === 0) return true;
+  if (str1.length === 0 || str2.length === 0) return false;
+
+  if (
+    str1.substring(0, 1) === str2.substring(0, 1) &&
+    str1.length === str2.length
+  ) {
+    return true;
+  } else {
+    return compareStr(str1.substring(1), str2.substring(1));
+  }
+};
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
-var createArray = function(str) {};
+
+// var createArray = function(str) {
+//   if (str.length === 0) {
+//     return [];
+//   }
+//   str = str.split("");
+//   var result = [];
+//   result.push(str[0]);
+//   return createArray(str);
+// };
+
+var createArray = function(str) {
+  if (str.length === 0) {
+    return [];
+  }
+  return str[0].split("").concat(createArray(str.substring(1)));
+};
 
 // 17. Reverse the order of an array
-var reverseArr = function(array) {};
+var reverseArr = function(array) {
+  if (array.length === 1) {
+    return array;
+  }
+  // var result = [];
+  // result.push(array.pop())
+  //array.pop();
+  return [array[array.length - 1]].concat(
+    reverseArr(array.slice(0, array.length - 1))
+  );
+};
+
+// var reverseArr = function(array) {
+//   if (array.length === 0 || array.length === 1) {
+//       return array;
+//   }
+//   return array.slice(array.length - 1).concat(reverseArr(array.slice(0,array.length - 1)));
+// };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
-var buildList = function(value, length) {};
+var buildList = function(value, length) {
+  // value and print length times
+  if (length === 0) {
+    return [];
+  }
+  var array = [];
+  array.push(value);
+  //buildList(value, length - 1);
+  return array.concat(buildList(value, length - 1));
+};
+
+// var buildList = function(value, length) {
+//   if (length === 0) {
+//       return [];
+//   }
+//   return [value].concat(buildList(value, length - 1));
+// };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
 // For multiples of three, output 'Fizz' instead of the number.
 // For multiples of five, output 'Buzz' instead of the number.
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
-var fizzBuzz = function(n) {};
+var fizzBuzz = function(n) {
+  // '1', '2', 'Fizz', 4, 'Buzz', 6, 7,
+  var result = [];
+  if (n === 0) {
+    return result;
+  }
+  // 15 first otherwise it will show Fizz instead of FizzBuzz
+  if (n % 15 === 0) {
+    result.push("FizzBuzz");
+  } else if (n % 3 === 0) {
+    result.push("Fizz");
+  } else if (n % 5 === 0) {
+    result.push("Buzz");
+  } else {
+    result.push(n.toString());
+  }
+  return fizzBuzz(n - 1).concat(result);
+};
+
+// inside empty array => push & unshift are the same.?
+// var fizzBuzz = function(n) {
+//   var result = [];
+
+//   if (n === 0) return result;
+
+//   if (n % 15 === 0) {
+//     result.unshift("FizzBuzz");
+//   } else if (n % 5 === 0) {
+//     result.unshift("Buzz");
+//   } else if (n % 3 === 0) {
+//     result.unshift("Fizz");
+//   } else {
+//     result.unshift(n.toString());
+//   }
+//   return fizzBuzz(n - 1).concat(result);
+// };
 
 // 20. Count the occurence of a value in a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
