@@ -630,6 +630,12 @@ var countOccurrence = function(array, value) {
 // //   result.push(array[0] * 2);
 // //   return result.concat(timesTwoo(array.slice(1)));
 // // };
+var rMap = function(array, callback) {
+  if (array.length === 0) {
+    return [];
+  }
+  return [callback(array[0])].concat(rMap(array.slice(1), callback));
+};
 
 // 22. Write a function that counts the number of times a key occurs in an object.
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
