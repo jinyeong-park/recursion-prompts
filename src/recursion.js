@@ -457,6 +457,7 @@ var gcd = function(x, y) {
 // both are identical.
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
+//
 var compareStr = function(str1, str2) {
   if (str1.length === 0 && str2.length === 0) return true;
   if (str1.length === 0 || str2.length === 0) return false;
