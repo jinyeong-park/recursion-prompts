@@ -539,7 +539,7 @@ var buildList = function(value, length) {
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
 var fizzBuzz = function(n) {
-  // '1', '2', 'Fizz', 4, 'Buzz', 6, 7,
+  // '1', '2', 'Fizz', 4, 'Buzz', 6, 7,.....14, 'FizzBuzz', 16
   var result = [];
   if (n === 0) {
     return result;
