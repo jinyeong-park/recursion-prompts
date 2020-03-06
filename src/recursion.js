@@ -79,7 +79,7 @@ var arraySum = function(array) {
 //     return result + arraySum(newArr);
 // };
 
-// 4. Check if a number is even.
+// 4. Check if a number is even.  (cf. 8. power of Two)
 var isEven = function(n) {
   // n < 0
   n = Math.abs(n);
@@ -175,10 +175,10 @@ var exponent = function(base, exp) {
   if (exp === 0) {
     return 1;
   } else if (exp > 0) {
-    //toFixed : format numbers in javascript to two decimal digits
-    return parseFloat(base * exponent(base, exp - 1).toFixed(4));
+    //toFixed(wanted digit) : format numbers in javascript to two decimal digits
+    return base * exponent(base, exp - 1).toFixed(4);
   } else {
-    return parseFloat((1 / base) * exponent(base, exp + 1).toFixed(4));
+    return (1 / base) * exponent(base, exp + 1).toFixed(4);
   }
 };
 //parseFloat( num.toFixed(2) )
@@ -203,20 +203,140 @@ var exponent = function(base, exp) {
 // powerOfTwo(1); // true
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
-var powerOfTwo = function(n) {};
+var powerOfTwo = function(n) {
+  if (n === 0) {
+    return false;
+  }
+  // only this case, true
+  if (n === 1) {
+    return true;
+  } else if (!Number.isInteger(n / 2)) {
+    return false;
+  } else {
+    return powerOfTwo(n / 2);
+  }
+};
 
 // 9. Write a function that reverses a string.
-var reverse = function(string) {};
+var reverse = function(string) {
+  if (string === "") {
+    return "";
+  }
+
+  var result = "";
+  arr = string.split("");
+  result += arr.pop();
+  return result + reverse(arr.join(""));
+  //return result + reverse(arr);
+};
+
+// 9. Write a function that reverses a string.
+// var reverse = function(string) {
+//   if (string === "") {
+//     return "";
+//   }
+
+//   string = string.split("");
+//   return (
+//     string.slice(string.length - 1).join("") +
+//     reverse(string.join("").substring(0, string.length - 1))
+//   );
+// };
 
 // 10. Write a function that determines if a string is a palindrome.
-var palindrome = function(string) {};
+var palindrome = function(string) {
+  // string.length === 0   , string = ''
+  if (string.length === 1 || string.length === 0) {
+    return true;
+  }
+  var arr = string.toLowerCase().split("");
+  //var arr = string.split("").toLowerCase(); //.toLowerCase() => string method
+
+  //compare 0 index & last index
+  if (arr[0] === arr[arr.length - 1]) {
+    //result = arr.pop();
+    arr.pop();
+    //result = arr.shift();
+    arr.shift();
+    return palindrome(arr.join(""));
+  } else {
+    return false;
+  }
+};
+
+// 11. difficult question!!!!
+//Write a function that returns the remainder of x divided by y without using the
+// modulo (%) operator.
+// modulo(5,2) // 1
+// modulo(17,5) // 2
+// modulo(22,6) // 4
+// modulo(-79 % 82) // -79
+// modulo((-4 % 2) // -0
+// var modulo = function(x, y) {
+//   // fraction characters -
+//   //denominator = 0 => NaN
+//   if (y === 0) {
+//     return NaN;
+//   }
+//   //numerator = 0  => 0
+//   if (x === 0) {
+//     return 0;
+//   }
+//   // Cases for positive & negative combinations
+//   if (x > 0 && x < y) {
+//     return x;
+//   }
+//   if ((x < 0 && y < 0 && x > y) || (x < 0 && y > 0 && x + y > 0)) {
+//     return x;
+//   } else if (x < 0 && y > 0) {
+//     return modulo(x + y, y);
+//   }
+//   return modulo(x - y, y);
+// };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
 // modulo (%) operator.
 // modulo(5,2) // 1
 // modulo(17,5) // 2
 // modulo(22,6) // 4
-var modulo = function(x, y) {};
+var modulo = function(x, y) {
+  if (y === 0) {
+    return NaN;
+  }
+  if (x === 0) {
+    return 0;
+  }
+
+  if (x > 0 && x < y) {
+    return x;
+  }
+
+  if (x < 0 && y < 0 && x > y) {
+    return x;
+  } else if (x < 0 && y > 0 && x + y > 0) {
+    return x;
+  } else if (x < 0 && y > 0) {
+    return modulo(x + y, y);
+  }
+  return modulo(x - y, y);
+};
+
+// var modulo = function(x, y) {
+//   if (y === 0) {
+//     return NaN;
+//   } else if (
+//     (x < y && x >= 0 && y >= 0) ||
+//     (x < -y && y < 0 && x >= 0) ||
+//     (-x < y && x < 0 && y >= 0) ||
+//     (-x < -y && x < 0 && y < 0)
+//   ) {
+//     return x;
+//   }
+//   if ((x >= 0 && y >= 0) || (x <= 0 && y <= 0)) {
+//     return modulo(x - y, y);
+//   }
+//   return modulo(x + y, y);
+// };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
