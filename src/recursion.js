@@ -926,50 +926,69 @@ var letterTally = function(str, obj) {
 
 letterTally("mississippi"); //there is no obj given => if (obj === undefined) obj = {};
 
-//letterTally("mississippi");
-
-// var letterTally = function(str, obj) {
-//     if (str.length === 0) {
-//         return obj;
-//     }
-//     if (obj === undefined) {
-//         obj = {};
-//     }
-//     if (obj[str[0]] > 0) {
-//         obj[str[0]]++;
-//     } else {
-//         obj[str[0]] = 1;
-//     }
-//     return letterTally(str.slice(1), obj);
-// };
-
 // 32. Eliminate consecutive duplicates in a list. If the list contains repeated
 // elements they should be replaced with a single copy of the element. The order of the
 // elements should not be changed.
 // compress([1,2,2,3,4,4,5,5,5]) // [1,2,3,4,5]
 // compress([1,2,2,3,4,4,2,5,5,5,4,4]) // [1,2,3,4,2,5,4]
-var compress = function(list) {};
+var compress = function(list) {
+  if (list.length === 0) {
+    return list;
+  }
+  //var result = [];
+  // if (result.indexOf(list[0]) === -1) {
+  //   result.push(list[0]);
+  // }
+  for (var i = 0; i < list.length; i++) {
+    if (list[i] !== list[i + 1]) {
+      return [list[i]].concat(compress(list.slice(i + 1)));
+    }
+  }
+  return result.concat(compress(list.slice(1)));
+};
+
+// var compress = function(list) {
+//   result = [];
+//   if (list.length === 0) return result;
+//   if (list.length === 1) {
+//     result.push(list[0]);
+//     return result;
+//   };
+//   if (list[0] === list[1]) {
+//       return result.concat(compress(list.slice(1)));
+//   }
+//   result.push(list[0]);
+//   return result.concat(compress(list.slice(1)));
+// };
 
 // 33. Augment every element in a list with a new value where each element is an array
 // itself.
 // augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
-var augmentElements = function(array, aug) {};
+var augmentElements = function(array, aug) {
+  if (array.length === 0) {
+    return array;
+  }
+  array[0].push(aug);
+  //console.log(array);
+  return [array[0]].concat(augmentElements(array.slice(1), aug));
+};
 
-// 34. Reduce a series of zeroes to a single 0.
+augmentElements([[], [3], [7]], 5); // [[5],[3,5],[7,5]]
+
+// 34. Reduce a series of zeroes to a single 0. (same as 32. Eliminate consecutive duplicates)
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
-var minimizeZeroes = function(array) {};
-
-// 35. Alternate the numbers in an array between positive and negative regardless of
-// their original sign. The first number in the index always needs to be positive.
-// alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
-// alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
-var alternateSign = function(array) {};
-
-// 36. Given a string, return a string with digits converted to their word equivalent.
-// Assume all numbers are single digits (less than 10).
-// numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
-var numToText = function(str) {};
+var minimizeZeroes = function(array) {
+  if (array.length === 0) {
+    return array;
+  }
+  for (var i = 0; i < array.length; i++) {
+    if (array[i] !== array[i + 1]) {
+      return [array[i]].concat(minimizeZeroes(array.slice(i + 1)));
+    }
+  }
+  return result.concat(minimizeZeroes(array.slice(1)));
+};
 
 // *** EXTRA CREDIT ***
 
