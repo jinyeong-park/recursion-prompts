@@ -861,29 +861,46 @@ var nestedEvenSum = function(obj) {
 
 var flatten = function(array) {
   if (array.length === 0) {
-    return [];
+    return;
   }
-  // how to remove 0 => if (array.join().split(",")[0] !== "")
-  if (array.join().split(",")[0] !== "") {
-    return [Number(array.join().split(",")[0])].concat(
-      flatten(
-        array
-          .join()
-          .split(",")
-          .slice(1)
-      )
-    );
-  } else {
-    return [Number(array.join().split(",")[1])].concat(
-      flatten(
-        array
-          .join()
-          .split(",")
-          .slice(2)
-      )
-    );
+  var result = [];
+  for (var i of array) {
+    if (Array.isArray(i) && i.length > 0) {
+      result = result.concat(flatten(i));
+    } else if (i.length !== 0) {
+      result.push(i);
+    }
   }
+  return result;
 };
+
+//var a = ([1,[2],[3,[[4]]],5]);
+
+// var flatten = function(array) {
+//   if (array.length === 0) {
+//     return [];
+//   }
+//   // how to remove 0 => if (array.join().split(",")[0] !== "")
+//   if (array.join().split(",")[0] !== "") {
+//     return [Number(array.join().split(",")[0])].concat(
+//       flatten(
+//         array
+//           .join()
+//           .split(",")
+//           .slice(1)
+//       )
+//     );
+//   } else {
+//     return [Number(array.join().split(",")[1])].concat(
+//       flatten(
+//         array
+//           .join()
+//           .split(",")
+//           .slice(2)
+//       )
+//     );
+//   }
+// };
 
 // 31. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {p:1, o:2, t:2, a:1}
