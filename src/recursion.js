@@ -990,6 +990,41 @@ var minimizeZeroes = function(array) {
   return result.concat(minimizeZeroes(array.slice(1)));
 };
 
+// 35. Alternate the numbers in an array between positive and negative regardless of
+// their original sign. The first number in the index always needs to be positive.
+// alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
+// alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
+// var alternateSign = function(array) {
+//   if (array.length === 0) {
+//     return array;
+//   }
+
+//   if (array[0] < 0) {
+//     array[0] *= -1;
+//   }
+//   for (var i = 0; i < array.length; i++) {
+//     if (i % 2 === 0) {
+//       array[i] *= 1
+//     } else {
+//       array[i] *= -1
+//     }
+//   }
+
+//   return [array[0]].concat(alternateSign(array.slice(1)));
+// };
+
+var alternateSign = function(array) {
+  if (array.length === 0) {
+    return [];
+  }
+  if (array.length === 1) {
+    return [Math.abs(array[0])].concat(alternateSign(array.slice(1)));
+  }
+  return [Math.abs(array[0]), -Math.abs(array[1])].concat(
+    alternateSign(array.slice(2))
+  );
+};
+
 // *** EXTRA CREDIT ***
 
 // 37. Return the number of times a tag occurs in the DOM.
