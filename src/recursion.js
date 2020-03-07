@@ -361,16 +361,18 @@ var modulo = function(x, y) {
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
+
+//var result = 0;
+// if (x > 0 && y < 0) {
+//   result += x;
+//   return -x + multiply(x, y + 1);
+// } else if (x < 0 && y < 0) {
+//   return -x + multiply(x, y + 1);
 var multiply = function(x, y) {
   if (x === 0 || y === 0) {
     return 0;
   }
-  //var result = 0;
-  // if (x > 0 && y < 0) {
-  //   result += x;
-  //   return -x + multiply(x, y + 1);
-  // } else if (x < 0 && y < 0) {
-  //   return -x + multiply(x, y + 1);
+
   if (y > 0) {
     return x + multiply(x, y - 1);
   } else {
@@ -729,39 +731,58 @@ console.log(obj);
 // number is the sum of the previous two.
 // Example: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34.....
 // fibonacci(5); // [0,1,1,2,3,5]
+
+// [0,1,1,2,3,5,8,13,21]
+
+// fibonacci(1) :  [0, 1]
+// 2 [0, 1, 1]
+// 3 [0, 1, 1] + [1+1] -> [0, 1, 1, 2]
+// 4 [0, 1, 1, 2] + [1+2] -> [0, 1, 1, 2, 3]
+// 5 [0, 1, 1, 2, 3] + [2+3] -> [0, 1, 1, 2, 3, 5]
+
 // Note: The 0 is not counted.
-var fibonacci = function(n) {};
+var fibonacci = function(n) {
+  // fibonacci number doesn exist if n is 0 or less than 0
+
+  if (n < 0) return null;
+  if (n === 0) return null;
+  if (n === 1) return [0, 1];
+  if (n === 2) return [0, 1, 1];
+  // var result = [];
+  // result.push(n);
+  return fibonacci(n - 1).concat(
+    fibonacci(n - 1)[fibonacci(n - 1).length - 1] +
+      fibonacci(n - 2)[fibonacci(n - 2).length - 1]
+  );
+};
+
+// var fibonacci = function(n) {
+//   if (n <= 0) {
+//     return null;
+//   }
+//   if (n === 1) {
+//     return [0, 1];
+//   }
+//   return fibonacci(n - 1).concat(
+//     fibonacci(n - 1)[fibonacci(n - 1).length - 2] +
+//       fibonacci(n - 1)[fibonacci(n - 1).length - 1]
+//   );
+// };
+// console.log(fibonacci(5));
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
 // [0,1,1,2,3,5,8,13,21]
 // nthFibo(5); // 5
 // nthFibo(7); // 13
-// nthFibo(3); // 2
-var nthFibo = function(n) {};
+// // nthFibo(3); // 2
+var nthFibo = function(n) {
+  if (n < 0) return null;
+  if (n === 0) return 0;
+  if (n <= 1) return 1;
+  return nthFibo(n - 1) + nthFibo(n - 2);
+};
 
-// 27. Given an array of words, return a new array containing each word capitalized.
-// var words = ['i', 'am', 'learning', 'recursion'];
-// capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
-var capitalizeWords = function(array) {};
-
-// 28. Given an array of strings, capitalize the first letter of each index.
-// capitalizeFirst(['car','poop','banana']); // ['Car','Poop','Banana']
-var capitalizeFirst = function(array) {};
-
-// 29. Return the sum of all even numbers in an object containing nested objects.
-// var obj1 = {
-//   a: 2,
-//   b: {b: 2, bb: {b: 3, bb: {b: 2}}},
-//   c: {c: {c: 2}, cc: 'ball', ccc: 5},
-//   d: 1,
-//   e: {e: {e: 2}, ee: 'car'}
-// };
-// nestedEvenSum(obj1); // 10
-var nestedEvenSum = function(obj) {};
-
-// 30. Flatten an array containing nested arrays.
-// flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
-var flatten = function(array) {};
+//console.log(fibonacci(8))
 
 // 31. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {p:1, o:2, t:2, a:1}
