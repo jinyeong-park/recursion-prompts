@@ -1025,6 +1025,45 @@ var alternateSign = function(array) {
   );
 };
 
+// 36. Given a string, return a string with digits converted to their word equivalent.
+// Assume all numbers are single digits (less than 10).
+// numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
+var numToText = function(str) {
+  //str = str.split(' ')
+  if (str.length === 0) {
+    return "";
+  }
+
+  var numObj = {
+    0: "zero",
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine"
+  };
+  // only in case of number -> going to for loop
+  if (typeof Number(str[0]) === "number") {
+    for (var key in numObj) {
+      if (key === str[0]) {
+        //str[0] = numObj[key]
+        return numObj[key] + numToText(str.substring(1));
+      }
+    }
+  }
+  return str[0] + numToText(str.substring(1));
+  //string substring syntax
+  //return str.substring(0,1) + numToText(str.substring(1))
+  //cf> array slice syntax
+  //return [array[0]].concat(augmentElements(array.slice(1), aug));
+};
+
+numToText("I have 5 dogs and 6 ponies");
+
 // *** EXTRA CREDIT ***
 
 // 37. Return the number of times a tag occurs in the DOM.
