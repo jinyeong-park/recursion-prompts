@@ -853,6 +853,38 @@ var nestedEvenSum = function(obj) {
   return sum;
 };
 
+// 30. Flatten an array containing nested arrays.
+// flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
+//array.join() ==> remove all square bracket
+//array.join().split(",")  ==> make array
+// Number(array.join().split(",")[0]) ==> make string ele to number element
+
+var flatten = function(array) {
+  if (array.length === 0) {
+    return [];
+  }
+  // how to remove 0 => if (array.join().split(",")[0] !== "")
+  if (array.join().split(",")[0] !== "") {
+    return [Number(array.join().split(",")[0])].concat(
+      flatten(
+        array
+          .join()
+          .split(",")
+          .slice(1)
+      )
+    );
+  } else {
+    return [Number(array.join().split(",")[1])].concat(
+      flatten(
+        array
+          .join()
+          .split(",")
+          .slice(2)
+      )
+    );
+  }
+};
+
 // 31. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {p:1, o:2, t:2, a:1}
 var letterTally = function(str, obj) {};
