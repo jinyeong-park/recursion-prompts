@@ -784,6 +784,75 @@ var nthFibo = function(n) {
 
 //console.log(fibonacci(8))
 
+// 27. Given an array of words, return a new array containing each word capitalized.
+// var words = ['i', 'am', 'learning', 'recursion'];
+// capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
+var capitalizeWords = function(array) {
+  // var result = [];
+  if (array.length === 0) {
+    return array;
+    //return [];
+  }
+  // array[0].toUpperCase();
+  // var newArr = array.slice();
+  return [array[0].toUpperCase()].concat(capitalizeWords(array.slice(1)));
+};
+
+// var capitalizeWords = function(array) {
+//   var newArray = [];
+//   if (array.length === 0) return array;
+//   var str = array.shift();
+//   newArray.push(str.toUpperCase());
+//   return newArray.concat(capitalizeWords(array));
+// };
+
+// var words = ["i", "am", "learning", "recursion"];
+// capitalizeWords(words);
+
+// 28. Given an array of strings, capitalize the first letter of each index.
+// capitalizeFirst(['car','poop','banana']); // ['Car','Poop','Banana']
+var capitalizeFirst = function(array) {
+  if (array.length === 0) {
+    return array;
+  }
+  // + string.substring(1) : index 1~
+  // + string.slice(1) : index 1~
+  return [array[0][0].toUpperCase() + array[0].substring(1)].concat(
+    capitalizeFirst(array.slice(1))
+  );
+};
+
+// var capitalizeFirst = function(array) {
+//   var newArray = [];
+//   if (array.length === 0) return array;
+//   var str = array.shift()
+//   newArray.push(str[0].toUpperCase() + str.substring(1).toLowerCase());
+//   return newArray.concat(capitalizeFirst(array));
+// };
+
+// 29. Return the sum of all even numbers in an object containing nested objects.
+// var obj1 = {
+//   a: 2,
+//   b: {b: 2, bb: {b: 3, bb: {b: 2}}},
+//   c: {c: {c: 2}, cc: 'ball', ccc: 5},
+//   d: 1,
+//   e: {e: {e: 2}, ee: 'car'}
+// };
+// nestedEvenSum(obj1); // 10
+var nestedEvenSum = function(obj) {
+  var sum = 0;
+
+  for (var i in obj) {
+    if (obj[i] % 2 === 0) {
+      sum += obj[i];
+    }
+    if (typeof obj[i] === "object") {
+      sum += nestedEvenSum(obj[i]);
+    }
+  }
+  return sum;
+};
+
 // 31. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {p:1, o:2, t:2, a:1}
 var letterTally = function(str, obj) {};
